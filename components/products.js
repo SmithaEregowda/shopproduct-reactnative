@@ -7,12 +7,11 @@ const Products = () => {
     const [products,setProducts]=useState([]);
 
     useEffect(()=>{
-      console.log("first")
         getListOfProducts();
     },[])
 
     const getListOfProducts=()=>{
-      console.log("secon")
+    
         const requestOptions = {
             method: 'GET',
             // headers: {
@@ -21,7 +20,6 @@ const Products = () => {
           };
           getAllProducts(requestOptions)
             .then(data => {
-                console.log("data",data)
               setProducts(data?.products)
             //   setPagination(data?.pagination)
             })
