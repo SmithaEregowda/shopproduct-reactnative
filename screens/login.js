@@ -4,6 +4,8 @@ import { GolbalColors } from '../constants/styles'
 import { Link, useNavigation } from '@react-navigation/native'
 import { login } from '../services/authenticate'
 import { AuthContext } from '../store/auth'
+import Loader from '../components/common/loader'
+import Toast from 'react-native-root-toast'
 
 const Login = () => {
   const [loginobj,setLoginObj]=useState({});
@@ -30,25 +32,36 @@ const Login = () => {
       // navigation.navigate('home')
      }
      setLoading(false)
+     Toast.show('Logged in successfully.', {
+      duration: 1500,
+      position: Toast.positions.CENTER,
+      containerStyle:{
+        backgroundColor:"green"
+      }
+    });
   })
   }
 
+  
   return (
     <View style={styles.loginWrapper}>
       {/* <Text style={styles.title}>LOGIN</Text> */}
-      {loading&&<ActivityIndicator animating={true} size={'large'} style={styles.loader}/>}
+      {loading&&<Loader loading={loading} />}
      <SafeAreaView>
         <View style={styles.inputBox}>
           <Text style={styles.label}>User Name</Text>
         <TextInput 
         style={styles.input} name={"userName"} 
         onChangeText={(value)=>updateLoginObj("username",value)}
+        keyboardType="email-address"
         />
         </View>
         <View style={styles.inputBox}>
           <Text style={styles.label}>Password</Text>
         <TextInput style={styles.input}
-        onChangeText={(value)=>updateLoginObj("password",value)} />
+        onChangeText={(value)=>updateLoginObj("password",value)} 
+        keyboardType="visible-password"
+        />
         </View>
         <View style={styles.logbtn}>
           <Button 
@@ -108,13 +121,5 @@ const styles = StyleSheet.create({
   },text:{
     textAlign:"right",
     margin:5
-  },
-  loader:{
-    position:'absolute',
-    // left:170,
-    width:"130%",
-     height:"410%",
-    backgroundColor:'rgba(0, 0, 0, 0.5)',
-    zIndex: 100,
   }
 })

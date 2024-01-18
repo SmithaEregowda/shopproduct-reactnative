@@ -11,6 +11,7 @@ import SignUp from './screens/signup';
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 import Cart from './screens/cart';
 import Wishlist from './screens/wishlist';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 export default function App() {
   const Stack=createNativeStackNavigator();
@@ -98,9 +99,11 @@ export default function App() {
   }
 
   return (
-    <AuthContextProvider>
+    <RootSiblingParent>
+      <AuthContextProvider>
      <Navigation />
     </AuthContextProvider>
+    </RootSiblingParent>
   );
 }
 
