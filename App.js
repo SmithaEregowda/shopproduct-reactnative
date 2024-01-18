@@ -12,48 +12,21 @@ import SignUp from './screens/signup';
 import Cart from './screens/cart';
 import Wishlist from './screens/wishlist';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { BottomNavigation } from './navigation/bottomnav';
 
 export default function App() {
   const Stack=createNativeStackNavigator();
-  // const Drawer=createDrawerNavigator();
-
-  // const Root=()=>{
-  //   return(
-  //     <Drawer.Navigator initialRouteName='cart'>
-  //       <Drawer.Screen name='cart' component={Cart}/>
-  //       <Drawer.Screen name='wishlist' component={Wishlist}/>
-  //     </Drawer.Navigator>
-  //   )
-      
-    
-  // }
+  const Tab=createBottomTabNavigator();
   
   const Navigation=()=>{
     const {authToken}=useContext(AuthContext)
     return(
+     
+      authToken?
+        <BottomNavigation />
+      :
       <NavigationContainer>
-      {authToken?
-      <Stack.Navigator
-        screenOptions={{
-         headerStyle:{
-          backgroundColor:"green"
-         },
-         headerTintColor:"white"
-        }}
-      >
-       <Stack.Screen 
-            name="home" 
-            component={Home}
-            options={{
-              title:"Veggies Shop"
-            }}
-       />
-        {/* <Stack.Screen
-          name="Root"
-          component={Root}
-          options={{ headerShown: false }}
-        /> */}
-      </Stack.Navigator>:
       <Stack.Navigator
         screenOptions={{
          headerStyle:{
@@ -93,8 +66,8 @@ export default function App() {
               title:"Register to Veggies Shop"
             }}
        />
-      </Stack.Navigator>}
-  </NavigationContainer>
+      </Stack.Navigator>
+      </NavigationContainer>
     )
   }
 
