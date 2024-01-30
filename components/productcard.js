@@ -1,10 +1,12 @@
 import { Button, Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const ProductCard = ({product}) => {
     let API_PATH='https://shop-products-api-1q6w.vercel.app';
   return (
     <View style={styles.card}>
+        <MaterialCommunityIcons name="heart-outline" color={"#5f5f5f"} size={25} style={styles.wishicon}/>
         <Image 
             source={{uri:`${API_PATH}/${product?.productImg}`}}
             style={styles.image}
@@ -16,9 +18,9 @@ const ProductCard = ({product}) => {
       </View>
       <Text style={styles.price}>RS.{product?.price}</Text>
       </View>
-      <View style={styles.btnActions}>
-        <Button title='Add To Cart' color={"green"}/>
-        <Button title='Buy Now' color={"red"}/>
+      <View >
+        <View style={styles.btnActions}><Button title='Add To Cart' color={"green"}/></View>
+        <View style={styles.btnActions}><Button title='Buy Now' color={"red"}/></View>
       </View>
     </View>
   )
@@ -28,16 +30,23 @@ export default ProductCard
 
 const styles = StyleSheet.create({
     card:{
-        width:300,
+        width:189,
         display:"grid",
         padding:"1rem",
         backgroundColor:"#ccc",
         margin:8,
-        padding:8
+        padding:8,
+        position:"relative"
+        },
+        wishicon:{
+            position:"absolute",
+            right:0,
+            zIndex:100,
+            padding:6
         },
     image:{
         width:'100%',
-        height:200,
+        height:150,
         display:"flex",
         justifyContent:"center"
     },
@@ -57,10 +66,7 @@ const styles = StyleSheet.create({
         color:"green"
     },
     btnActions:{
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"space-between",
-        marginTop:4,
-        marginBottom:4
+        marginTop:2,
+        marginBottom:2
     }
 })

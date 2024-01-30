@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getAllProducts } from '../services/products'
 import ProductCard from './productcard';
@@ -32,13 +32,16 @@ const Products = () => {
             //   setPagination(data?.pagination)
             })
     }
+    let numColumns=2;
 
   return (
-    <View>
+    <ScrollView >
      {loading&& <Loader loading={loading} />}
-      <FlatList 
+      {/* <FlatList 
          data={products}
          keyExtractor={(item)=>item?._id}
+         contentContainerStyle={styles.list}
+        //  numColumns={numColumns}
          renderItem={(itemData)=>{
             return(
                 <ProductCard 
@@ -46,11 +49,27 @@ const Products = () => {
                 />
             )
          }}
-      />
-    </View>
+      /> */}
+      <View style={styles.list}>
+      {products?.length>0&&products?.map((item)=>(
+                <ProductCard 
+                key={item?.id}
+                product={item}
+            />
+
+      ))}
+      </View>
+
+    </ScrollView>
   )
 }
 
 export default Products
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  list: {
+    // justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  }
+});
