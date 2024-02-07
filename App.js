@@ -14,6 +14,7 @@ import Wishlist from './screens/wishlist';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { BottomNavigation } from './navigation/bottomnav';
+import WelcomeApp from './screens/welcome';
 
 export default function App() {
   const Stack=createNativeStackNavigator();
@@ -35,35 +36,27 @@ export default function App() {
          headerTintColor:"white"
         }}
       >
-        <Stack.Screen 
-            name="home" 
-            component={Home}
-            options={({ navigation, route }) => ({
-              title:"Veggies Shop",
-              headerRight:()=>{
-                return <View>
-                 
-                  <Button 
-                    title='Login/Signup'
-                    color={GolbalColors.PRIMARY_BTN}
-                    onPress={()=>navigation.navigate('login')}
-                  />
-                </View>
-              }
-            })}
-       />
+      
+      <Stack.Screen 
+      name="welcome" 
+      component={WelcomeApp}
+      options={{
+        title:"VEGGIES SHOP"
+      }}
+      />
+      
        <Stack.Screen 
             name="login" 
             component={Login}
             options={{
-              title:"Login to Veggies Shop"
+              title:""
             }}
        />
        <Stack.Screen 
             name="signup" 
             component={SignUp}
             options={{
-              title:"Register to Veggies Shop"
+              title:""
             }}
        />
       </Stack.Navigator>
