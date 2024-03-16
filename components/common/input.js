@@ -9,7 +9,8 @@ function Input({
   onUpdateValue,
   value,
   isInvalid,
-  placeholder
+  placeholder,
+  numberOfLines
 }) {
   return (
     <View style={styles.inputContainer}>
@@ -24,6 +25,7 @@ function Input({
         onChangeText={onUpdateValue}
         value={value}
         placeholder={placeholder}
+        numberOfLines={numberOfLines}
       />
     </View>
   );

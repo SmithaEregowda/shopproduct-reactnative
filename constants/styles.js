@@ -10,5 +10,6 @@ export  const GolbalColors={
     BG1:"#f55e12",
     BG2:"#e4d2e2",
     BG3:"#e586da",
-    error:"#f2a2ac"
+    error:"#ef8793",
+    error2:"#ec2038"
 }

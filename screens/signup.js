@@ -1,66 +1,126 @@
-import { Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import { Pressable, SafeAreaView, StyleSheet, Text,  View } from 'react-native'
+import React, { useState } from 'react'
 import { GolbalColors } from '../constants/styles'
-import { Link } from '@react-navigation/native'
+import { Link, useNavigation } from '@react-navigation/native'
+import Input from '../components/common/input'
+import { signup } from '../services/authenticate'
+import Loader from '../components/common/loader'
+import Toast from 'react-native-root-toast'
 
 const SignUp = () => {
+  const [signupObj,setSignupObj]=useState({});
+  const [loading,setLoading]=useState(false)
+  const navigation=useNavigation();
+  const upadteSignupObj=(name,value)=>{
+    signupObj[name]=value;
+    setSignupObj({...signupObj})
+  }
+  const signupHandler=()=>{
+    setLoading(true)
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signupObj)
+    };
+    signup(requestOptions).then(data => {
+        setLoading(false)
+        console.log(data)
+        if(data?.status===200){
+           setLoading(false)
+         Toast.show('Signed Up in successfully.', {
+          duration: 1500,
+          position: Toast.positions.CENTER,
+          containerStyle:{
+            backgroundColor:"green"
+          }
+        });
+        if (data?.user) {
+         navigation.navigate('login')
+      }
+        }else{
+          setLoading(false)
+          Toast.show(data?.message?data?.message:data?.data?.[0]?.msg, {
+           duration: 1500,
+           position: Toast.positions.CENTER,
+           containerStyle:{
+             backgroundColor:GolbalColors.error2
+           }
+         });
+        }
+        
+        //setOpenModal(false)
+    })
+  }
   return (
-    <View style={styles.loginWrapper}>
-    {/* <Text style={styles.title}>LOGIN</Text> */}
-   <SafeAreaView>
-      <View style={styles.inputBox}>
-        <Text style={styles.label}>Name</Text>
-      <TextInput style={styles.input}  />
-      </View>
-      <View style={styles.inputBox}>
-        <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputBox}>
-        <Text style={styles.label}>Mobile Number</Text>
-      <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputBox}>
-        <Text style={styles.label}>Adress</Text>
-      <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputBox}>
-        <Text style={styles.label}>Password</Text>
-      <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputBox}>
-        <Text style={styles.label}>Confirm Password</Text>
-      <TextInput style={styles.input} />
-      </View>
-      <View style={styles.logbtn}>
-        <Button 
-          title='Sign Up' 
-          color={GolbalColors.PRIMARY_BTN2}
+    <>
+    {loading&&<Loader loading={loading} />}
+    <View style={styles.sinupWrapper}> 
+     <SafeAreaView>
+     <View>
+     <Input
+          // label="Email Address"
+          onUpdateValue={(value)=>upadteSignupObj("name",value)}
+          keyboardType={"text"}
+          placeholder={"Name"}
+        />
+        <Input
+          // label="Email Address"
+          onUpdateValue={(value)=>upadteSignupObj("email",value)}
+          keyboardType={"text"}
+          placeholder={"Email Address"}
+        />
+        <Input
+          // label="Email Address"
+          onUpdateValue={(value)=>upadteSignupObj("MobileNumber",value)}
+          keyboardType={"number"}
+          placeholder={"Mobile Number"}
+        />
+        <Input
+          // label="Email Address"
+          onUpdateValue={(value)=>upadteSignupObj("Address",value)}
+          keyboardType={"text"}
+          placeholder={"Address Details"}
+          numberOfLines={3}
+        />
+        <Input
+          // label="Password"
+          onUpdateValue={(value)=>upadteSignupObj("password",value)}
+          secure
+          placeholder={"Password"}
+        />
+        <Input
+          // label="Password"
+          onUpdateValue={(value)=>upadteSignupObj("confirmPassword",value)}
+          secure
+          placeholder={"Confirm Password"}
         />
       </View>
-      <View>
-        <Text style={styles.text}>don't have account 
-          <Link 
-            to={{screen:"login"}}
-            style={styles.link}
-          >
-            {" "} Login?
-          </Link>
-        </Text>
-      </View>
-   </SafeAreaView>
-  </View>
+        <Pressable style={styles.logbtn} onPress={signupHandler}>
+          <Text style={styles.btn}>Sign Up</Text>
+        </Pressable>
+        <View style={styles.signinCont}>
+          <Text style={styles.text}> Aleready have account 
+            <Link 
+              to={{screen:"login"}}
+              style={styles.link}
+            >
+              {" "}login?
+            </Link>
+          </Text>
+        </View>
+     </SafeAreaView>
+    </View></>
   )
 }
 
 export default SignUp
 
 const styles = StyleSheet.create({
-  loginWrapper:{
-    justifyContent:'center',
-    alignContent:"center",
-    padding:20,
-    marginTop:50
+  sinupWrapper:{
+    paddingHorizontal:20,
+    backgroundColor:GolbalColors.PRIMARY_BTN,
+    flex:1,
+    paddingTop:75
   },
   inputBox:{
     marginBottom:20
@@ -72,22 +132,51 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   label:{
-    padding:2
+    padding:5,
+    backgroundColor:GolbalColors.BG3
+  },
+  btn:{
+    color:GolbalColors.white,
+    fontSize:20,
+    fontWeight:"600",
+    fontStyle:"italic"
   },
   input:{
     borderColor:GolbalColors.BORDER1,
     borderWidth:2,
     padding:5,
-    margin:1
+    margin:5
   },
   logbtn:{
-    margin:5
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: GolbalColors.BG3,
+    borderTopLeftRadius:10,
+    borderTopRightRadius:10,
+    borderBottomRightRadius:10,
+    borderBottomLeftRadius:10,
+    marginTop:15
   },
   link:{
-    color:GolbalColors.Link,
-    margin:25
+    color:GolbalColors.BG3,
+    margin:25,
+    fontWeight:"800"
   },text:{
     textAlign:"right",
-    margin:5
+    margin:5,
+    fontSize:17,
+    color:GolbalColors.white
+  },
+  forgotCont:{
+    marginVertical:20,
+    paddingLeft:120
+  },fgText:{
+    color:GolbalColors.CLR2,
+    fontSize:15
+  },signinCont:{
+    marginVertical:20
   }
 })

@@ -27,12 +27,14 @@ const Login = () => {
   };
   
   login(requestOptions).then(data => {
-     if(data?.token&&data?.user){
-      handleauthToken(data?.token);
-      setUserId(data?.user);
-      // navigation.navigate('home')
-     }
-     setLoading(false)
+    console.log(data)
+    if(data?.status===200){
+      if(data?.token&&data?.user){
+        handleauthToken(data?.token);
+        setUserId(data?.user);
+        // navigation.navigate('home')
+       }
+       setLoading(false)
      Toast.show('Logged in successfully.', {
       duration: 1500,
       position: Toast.positions.CENTER,
@@ -40,14 +42,27 @@ const Login = () => {
         backgroundColor:"green"
       }
     });
+    }else{
+      setLoading(false)
+      Toast.show(data?.message, {
+       duration: 1500,
+       position: Toast.positions.CENTER,
+       containerStyle:{
+         backgroundColor:GolbalColors.error2
+       }
+     });
+    }
+     
   })
   }
 
   
   return (
+   <>
+    {loading&&<Loader loading={loading} />}
     <View style={styles.loginWrapper}>
       {/* <Text style={styles.title}>LOGIN</Text> */}
-      {loading&&<Loader loading={loading} />}
+     
      <SafeAreaView>
      <View>
         <Input
@@ -81,7 +96,7 @@ const Login = () => {
           </Text>
         </View>
      </SafeAreaView>
-    </View>
+    </View></>
   )
 }
 
@@ -133,8 +148,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius:10
   },
   link:{
-    color:GolbalColors.PRIMARY_BTN3,
-    margin:25
+    color:GolbalColors.BG3,
+    margin:25,
+    fontWeight:"800"
   },text:{
     textAlign:"right",
     margin:5,

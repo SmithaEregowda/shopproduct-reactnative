@@ -56,7 +56,7 @@ export default function App() {
             name="signup" 
             component={SignUp}
             options={{
-              title:""
+              headerShown:false
             }}
        />
       </Stack.Navigator>

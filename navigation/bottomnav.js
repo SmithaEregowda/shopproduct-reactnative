@@ -5,6 +5,7 @@ import Home from "../screens/home";
 import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { GolbalColors } from "../constants/styles";
+import Orders from "../screens/orders";
 
 const Tab=createBottomTabNavigator();
 
@@ -74,6 +75,24 @@ return(
                 }
                 return(
                     <MaterialCommunityIcons name="cards-heart" color={color} size={sizeicons}/>
+                )
+            }
+        }
+    }}
+    />
+    <Tab.Screen 
+    name="Orders" 
+    component={Orders}
+    options={(route)=>{
+        return{
+            tabBarLabel:"orders",
+            tabBarIcon:({focused,color,size})=>{
+                let sizeicons=size;
+                if(route.route.name==="orders"&&focused){
+                    sizeicons=size*1.5;
+                }
+                return(
+                    <MaterialCommunityIcons name="view-list" color={color} size={sizeicons}/>
                 )
             }
         }
