@@ -1,4 +1,4 @@
-import { ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { GolbalColors } from '../constants/styles'
 import { Link, useNavigation } from '@react-navigation/native'
@@ -6,6 +6,7 @@ import { login } from '../services/authenticate'
 import { AuthContext } from '../store/auth'
 import Loader from '../components/common/loader'
 import Toast from 'react-native-root-toast'
+import Input from '../components/common/input'
 
 const Login = () => {
   const [loginobj,setLoginObj]=useState({});
@@ -48,29 +49,28 @@ const Login = () => {
       {/* <Text style={styles.title}>LOGIN</Text> */}
       {loading&&<Loader loading={loading} />}
      <SafeAreaView>
-        <View style={styles.inputBox}>
-          <Text style={styles.label}>User Name</Text>
-        <TextInput 
-        style={styles.input} name={"userName"} 
-        onChangeText={(value)=>updateLoginObj("username",value)}
-        keyboardType="email-address"
+     <View>
+        <Input
+          // label="Email Address"
+          onUpdateValue={(value)=>updateLoginObj("username",value)}
+          keyboardType="email-address"
+          placeholder={"Email Address"}
         />
-        </View>
-        <View style={styles.inputBox}>
-          <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input}
-        onChangeText={(value)=>updateLoginObj("password",value)} 
-        keyboardType="visible-password"
+        <Input
+          // label="Password"
+          onUpdateValue={(value)=>updateLoginObj("password",value)}
+          secure
+          placeholder={"Password"}
         />
-        </View>
-        <View style={styles.logbtn}>
-          <Button 
-            title='Login' 
-            color={GolbalColors.PRIMARY_BTN2}
-            onPress={logintoApp}
-          />
-        </View>
-        <View>
+      </View>
+      <View style={styles.forgotCont}>
+        <Text style={styles.fgText}>Forgot Password?</Text>
+      </View>
+        
+        <Pressable style={styles.logbtn} onPress={logintoApp}>
+          <Text style={styles.btn}>Login</Text>
+        </Pressable>
+        <View style={styles.signupCont}>
           <Text style={styles.text}>don't have account 
             <Link 
               to={{screen:"signup"}}
@@ -89,10 +89,11 @@ export default Login
 
 const styles = StyleSheet.create({
   loginWrapper:{
-    justifyContent:'center',
-    alignContent:"center",
-    padding:20,
-    marginTop:70
+    // justifyContent:"center",
+    paddingHorizontal:20,
+    backgroundColor:GolbalColors.PRIMARY_BTN,
+    flex:1,
+    paddingTop:200
   },
   inputBox:{
     marginBottom:20
@@ -104,7 +105,14 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
   label:{
-    padding:5
+    padding:5,
+    backgroundColor:GolbalColors.BG3
+  },
+  btn:{
+    color:GolbalColors.white,
+    fontSize:20,
+    fontWeight:"600",
+    fontStyle:"italic"
   },
   input:{
     borderColor:GolbalColors.BORDER1,
@@ -113,13 +121,33 @@ const styles = StyleSheet.create({
     margin:5
   },
   logbtn:{
-    margin:5
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: GolbalColors.BG3,
+    borderTopLeftRadius:10,
+    borderTopRightRadius:10,
+    borderBottomRightRadius:10,
+    borderBottomLeftRadius:10
   },
   link:{
-    color:GolbalColors.Link,
+    color:GolbalColors.PRIMARY_BTN3,
     margin:25
   },text:{
     textAlign:"right",
-    margin:5
+    margin:5,
+    fontSize:17,
+    color:GolbalColors.white
+  },
+  forgotCont:{
+    marginVertical:20,
+    paddingLeft:120
+  },fgText:{
+    color:GolbalColors.CLR2,
+    fontSize:15
+  },signupCont:{
+    marginVertical:20
   }
 })
