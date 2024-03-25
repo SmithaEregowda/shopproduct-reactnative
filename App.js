@@ -15,6 +15,8 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { BottomNavigation } from './navigation/bottomnav';
 import WelcomeApp from './screens/welcome';
+import ForgotPassword from './screens/forgotpassword';
+import ResetPassword from './screens/resetpassword';
 
 export default function App() {
   const Stack=createNativeStackNavigator();
@@ -55,6 +57,20 @@ export default function App() {
        <Stack.Screen 
             name="signup" 
             component={SignUp}
+            options={{
+              headerShown:false
+            }}
+       />
+       <Stack.Screen 
+            name="forgot" 
+            component={ForgotPassword}
+            options={{
+              headerShown:false
+            }}
+       />
+       <Stack.Screen 
+            name="reset" 
+            component={ResetPassword}
             options={{
               headerShown:false
             }}

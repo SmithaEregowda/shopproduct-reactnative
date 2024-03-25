@@ -79,7 +79,12 @@ const Login = () => {
         />
       </View>
       <View style={styles.forgotCont}>
-        <Text style={styles.fgText}>Forgot Password?</Text>
+      <Link 
+              to={{screen:"forgot"}}
+              style={styles.fgText}
+            >
+             Forgot Password?
+            </Link>
       </View>
         
         <Pressable style={styles.logbtn} onPress={logintoApp}>
@@ -96,7 +101,8 @@ const Login = () => {
           </Text>
         </View>
      </SafeAreaView>
-    </View></>
+    </View>
+   </>
   )
 }
 
@@ -161,8 +167,9 @@ const styles = StyleSheet.create({
     marginVertical:20,
     paddingLeft:120
   },fgText:{
-    color:GolbalColors.CLR2,
-    fontSize:15
+    color:GolbalColors.BG3,
+    fontSize:15,
+    fontWeight:"700"
   },signupCont:{
     marginVertical:20
   }

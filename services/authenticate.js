@@ -15,3 +15,21 @@ export  function signup(requestOptions) {
           }).then(data=>{return data;} )
               return data;
       }
+
+    export  function forgotpassword(requestOptions) {
+        const data =fetch(`${API_PATH}/api/user/forgot-password`,requestOptions)
+        .then(res => {
+            console.log("response API",res)
+            return res.json();
+        }).then(data=>{return data;} )
+            return data;
+    }
+
+    export  function resetPassword(requestOptions,token) {
+        const data =fetch(`${API_PATH}/api/user${token}`,requestOptions)
+           .then(res => {
+            console.log(res)
+               return res.json();
+           }).then(data=>{return data;} )
+               return data;
+       }

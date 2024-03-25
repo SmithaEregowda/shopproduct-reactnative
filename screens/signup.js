@@ -72,7 +72,7 @@ const SignUp = () => {
         <Input
           // label="Email Address"
           onUpdateValue={(value)=>upadteSignupObj("MobileNumber",value)}
-          keyboardType={"number"}
+          keyboardType={"number-pad"}
           placeholder={"Mobile Number"}
         />
         <Input
