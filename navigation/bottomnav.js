@@ -6,12 +6,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { GolbalColors } from "../constants/styles";
 import Orders from "../screens/orders";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Checkout from "../screens/checkout";
 
 const Tab=createBottomTabNavigator();
 
 export const BottomNavigation=()=>{
+    const Stack=createNativeStackNavigator();
 return(
     <NavigationContainer>
+        <Stack.Screen 
+            name="checkout"
+            component={Checkout}
+        />
 <Tab.Navigator screenOptions={{
     headerTintColor:"white",
     tabBarActiveTintColor:"green",
