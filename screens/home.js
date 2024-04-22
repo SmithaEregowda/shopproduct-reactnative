@@ -5,7 +5,7 @@ import Products from '../components/products'
 const Home = () => {
   return (
     <View>
-      <Products />
+      <Products pageType={"home"} />
     </View>
   )
 }

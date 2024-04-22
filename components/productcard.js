@@ -1,14 +1,14 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../store/auth';
 import { getwishlistByUser ,removefromwishlist,postWishList} from '../services/wishlist';
 import Loader from '../components/common/loader'
 import Toast from 'react-native-root-toast'
 import TochableIcons from "../components/common/touchableicon"
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product,pageType,getWishlistProds}) => {
     let API_PATH='https://shop-products-api-1q6w.vercel.app';
     const navigation=useNavigation();
     const {authToken,userId}=useContext(AuthContext);
@@ -20,11 +20,19 @@ const ProductCard = ({product}) => {
         })
     }
 
-    useEffect(()=>{
-        if(userId&&authToken){
-            getWishListByUserId(authToken,userId)
-        }
-    },[userId,authToken])
+    useFocusEffect(
+      useCallback(()=>{
+        if(userId&&authToken&&pageType==="home"){
+          getWishListByUserId(authToken,userId)
+      }
+      },[userId,authToken,pageType])
+    )
+
+    // useEffect(()=>{
+    //     if(userId&&authToken&&pageType==="home"){
+    //         getWishListByUserId(authToken,userId)
+    //     }
+    // },[userId,authToken,pageType])
 
   const getWishListByUserId = (token, user) => {
     const requestOptions = {
@@ -65,7 +73,13 @@ const ProductCard = ({product}) => {
                       backgroundColor:"green"
                     }
                   });
-                getWishListByUserId(authToken,userId)
+                if(pageType==="wishlist"){
+                  getWishlistProds()
+                  setLoading(false)
+                }
+                if(pageType==="home"){
+                  getWishListByUserId(authToken,userId)
+                }
                 setLoading(false)
                 
             })
@@ -106,8 +120,10 @@ const ProductCard = ({product}) => {
     <>
     {loading&&<Loader loading={loading} />}
     <View style={styles.card}>
-        <TochableIcons 
-        name={`${ (wishListItems && wishListItems.length > 0 &&
+        {
+          pageType==="home"?
+          <TochableIcons 
+            name={`${ (wishListItems && wishListItems.length > 0 &&
                     wishListItems.findIndex(p => p.productId.toString() ===
                      product?._id) > -1) ?"heart":"heart-outline"}`} 
                      color={"#5f5f5f"} 
@@ -115,7 +131,15 @@ const ProductCard = ({product}) => {
                      style={styles.wishicon}
                      handleClick={handleWishlistIconClick}
                      wishListItems={wishListItems}
-                     />
+                     />:pageType==="wishlist"? <TochableIcons 
+                              name={"trash-can-outline"} 
+                              color={"#ea0f0f"} 
+                              size={25}
+                              style={styles.wishicon}
+                              handleClick={removefromwishlisthandler}
+                              wishListItems={wishListItems}
+                              />:""
+        }
               
         <Image 
             source={{uri:`${API_PATH}/${product?.productImg}`}}
@@ -128,9 +152,17 @@ const ProductCard = ({product}) => {
       </View>
       <Text style={styles.price}>RS.{product?.price}</Text>
       </View>
-      <View >
-        <View style={styles.btnActions}><Button title='Add To Cart' color={"green"}/></View>
-        <View style={styles.btnActions}><Button title='Buy Now' color={"red"} onPress={()=>checkoutHandler(product)}/></View>
+     
+        <View >
+        <View style={styles.btnActions}>
+          <Button title='Add To Cart' color={"green"}/>
+        </View>
+        {
+        pageType==="home"&&
+        <View style={styles.btnActions}>
+          <Button title='Buy Now' color={"red"} onPress={()=>checkoutHandler(product)}/>
+        </View>
+        }
       </View>
     </View>
    </>

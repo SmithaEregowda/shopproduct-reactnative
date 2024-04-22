@@ -1,22 +1,25 @@
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { getAllProducts } from '../services/products'
 import ProductCard from './productcard';
 import Loader from './common/loader';
 import Toast from 'react-native-root-toast';
+import { AuthContext } from '../store/auth';
+import { getwishlistByUser } from '../services/wishlist';
+import { useFocusEffect } from '@react-navigation/native';
 
-const Products = () => {
+const Products = ({pageType}) => {
     const [products,setProducts]=useState([]);
     const [loading,setLoading]=useState(false)
+    const {authToken,userId}=useContext(AuthContext)
 
-    useEffect(()=>{
-     
-        getListOfProducts();
+  useFocusEffect(
+    useCallback(()=>{
+      getListOfProducts();
     },[])
+  )
 
-   
-
-    const getListOfProducts=()=>{
+    const getListOfProducts=(filterItems)=>{
       setLoading(true)
         const requestOptions = {
             method: 'GET',
@@ -26,13 +29,12 @@ const Products = () => {
           };
           getAllProducts(requestOptions)
             .then(data => {
-              
-              setProducts(data?.products)
+              let listofProds=data?.products;
+                setProducts(listofProds)
               setLoading(false)
             //   setPagination(data?.pagination)
             })
     }
-    let numColumns=2;
 
   return (
     <ScrollView >
@@ -55,6 +57,7 @@ const Products = () => {
                 <ProductCard 
                 key={item?.id}
                 product={item}
+                pageType={pageType}
             />
 
       ))}
