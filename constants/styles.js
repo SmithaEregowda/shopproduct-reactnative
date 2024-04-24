@@ -3,13 +3,17 @@ export  const GolbalColors={
     PRIMARY_BTN2:"#3a8a0f",
     PRIMARY_BTN3:"#1a3e06",
     BORDER1:"#dbdbdb",
+    BORDER2:"#c3bfbf",
     COLOR1:"#211d1d",
+    COLOR2:"#807d7d",
     Link:"blue",
     white:"#fff",
     CLR2:"#e9e1e1",
     BG1:"#f55e12",
     BG2:"#e4d2e2",
     BG3:"#e586da",
+    BG4:"#e7e5e5",
     error:"#ef8793",
-    error2:"#ec2038"
+    error2:"#ec2038",
+    shadow1:"#050404"
 }

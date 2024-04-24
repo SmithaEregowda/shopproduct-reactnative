@@ -7,6 +7,7 @@ import { getwishlistByUser ,removefromwishlist,postWishList} from '../services/w
 import Loader from '../components/common/loader'
 import Toast from 'react-native-root-toast'
 import TochableIcons from "../components/common/touchableicon"
+import { postCart } from '../services/cart';
 
 const ProductCard = ({product,pageType,getWishlistProds}) => {
     let API_PATH='https://shop-products-api-1q6w.vercel.app';
@@ -116,6 +117,35 @@ const ProductCard = ({product,pageType,getWishlistProds}) => {
         }
       }
 
+      const handleAddToCart = () => {
+        setLoading(true)
+          const payload = {
+            userId: userId,
+            prodId: product?._id
+          }
+         
+          const requestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${authToken}`
+            },
+            body: JSON.stringify(payload)
+          };
+      
+          postCart(requestOptions).then((data) => {
+            Toast.show(data?.message, {
+              duration: 1500,
+              position: Toast.positions.CENTER,
+              containerStyle:{
+                backgroundColor:data?.status==200?'green':"red"
+              }
+            });
+            setLoading(false)
+          })
+        
+      }
+
   return (
     <>
     {loading&&<Loader loading={loading} />}
@@ -155,7 +185,7 @@ const ProductCard = ({product,pageType,getWishlistProds}) => {
      
         <View >
         <View style={styles.btnActions}>
-          <Button title='Add To Cart' color={"green"}/>
+          <Button title='Add To Cart' color={"green"} onPress={()=>handleAddToCart()}/>
         </View>
         {
         pageType==="home"&&

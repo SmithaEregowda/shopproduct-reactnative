@@ -83,7 +83,8 @@ return(
                 return(
                     <MaterialCommunityIcons name="cards-heart" color={color} size={sizeicons}/>
                 )
-            }
+            },
+            // headerShown:false
         }
     }}
     />
