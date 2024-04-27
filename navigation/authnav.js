@@ -12,7 +12,7 @@ import ResetPassword from '../screens/resetpassword'
 const AuthNavigator = () => {
     const Stack=createNativeStackNavigator();
   return (
-    <NavigationContainer>
+    // <NavigationContainer>
     <Stack.Navigator
       screenOptions={{
        headerStyle:{
@@ -59,7 +59,7 @@ const AuthNavigator = () => {
           }}
      />
     </Stack.Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   )
 }
 

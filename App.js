@@ -4,25 +4,46 @@ import { useContext } from 'react';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { BottomNavigation } from './navigation/bottomnav';
 import AuthNavigator from './navigation/authnav';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Checkout from "./screens/checkout"
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
-  
+  const Stack=createNativeStackNavigator();
   const Navigation=()=>{
     const {authToken}=useContext(AuthContext)
     console.log(authToken)
     return(
      
       authToken?
-        <BottomNavigation />
+      <Stack.Navigator>
+        <Stack.Screen 
+            name="Veggies Shop"
+            component={BottomNavigation}
+            options={{
+              headerShown:false
+            }}
+        />
+        <Stack.Screen 
+            name="checkout"
+            component={Checkout}
+            // options={{
+            //   headerShown:false
+            // }}
+        />
+        </Stack.Navigator>
       :
       <AuthNavigator />
     )
   }
 
+
   return (
     <RootSiblingParent>
       <AuthContextProvider>
-     <Navigation />
+      <NavigationContainer>
+      <Navigation />
+      </NavigationContainer>
     </AuthContextProvider>
     </RootSiblingParent>
   );

@@ -57,10 +57,10 @@ const Wishlist = () => {
   }
 
   return (
-    <View>
-      <Text>Wishlist</Text>
+    <>{loading&& <Loader loading={loading} />}
+    <View style={styles.wishlist}>
       <ScrollView >
-     {loading&& <Loader loading={loading} />}
+     
       <View style={styles.list}>
       {products?.length>0&&products?.map((item)=>(
                 <ProductCard 
@@ -75,6 +75,7 @@ const Wishlist = () => {
 
     </ScrollView>
     </View>
+    </>
   )
 }
 
@@ -85,5 +86,9 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingVertical:5
+  },
+  wishlist:{
+    flex:1
   }
 })

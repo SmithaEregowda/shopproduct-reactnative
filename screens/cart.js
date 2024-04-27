@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useContext, useState } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import Loader from '../components/common/loader'
 import { getCartByUser } from '../services/cart'
 import { AuthContext } from '../store/auth'
@@ -13,6 +13,8 @@ const Cart = () => {
   const {authToken,userId}=useContext(AuthContext);
   const [cartItems,setCartItems]=useState([]);
   const [cartProducts,setCartProducts]=useState([])
+
+  const navigation=useNavigation()
 
   useFocusEffect(
     useCallback(()=>{
@@ -61,15 +63,22 @@ const Cart = () => {
     <>{loading&&<Loader />}
       <ScrollView>
       <View style={styles.cart}>
-      <Text>Cart</Text>
       {cartProducts?.map((prod)=>(
         <CartProduct 
           {...{
             prod,
-            cartItems
+            cartItems,
+            setLoading,
+            getCartByUserInfo
           }}
         />
       ))}
+     <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate("checkout",{
+      cartprods:cartProducts,
+      cartItems:cartItems
+     })}>
+        <Text style={styles.btnText}>CheckOut</Text>
+      </TouchableOpacity>
     </View>
       </ScrollView>
     </>
@@ -80,7 +89,19 @@ export default Cart
 
 const styles = StyleSheet.create({
   cart:{
-    backgroundColor:GolbalColors.BG4,
+    // backgroundColor:GolbalColors.BG4,
     flex:1
+  },
+  button:{
+    backgroundColor:GolbalColors.BG3,
+        padding:10,
+        justifyContent:"center",
+        alignItems:"center",
+        borderRadius: 10,
+        margin:20
+  },
+  btnText:{
+    color:GolbalColors.white,
+    fontSize:20
   }
 })
