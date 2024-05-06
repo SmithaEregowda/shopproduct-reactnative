@@ -7,17 +7,32 @@ import { getAllProducts } from '../services/products';
 import Loader from '../components/common/loader';
 import ProductCard from '../components/productcard';
 import { useFocusEffect } from '@react-navigation/native';
+import { getCartByUser } from '../services/cart';
 
 const Wishlist = () => {
   const [products,setProducts]=useState([]);
     const [loading,setLoading]=useState(false)
     const {authToken,userId}=useContext(AuthContext)
+    const [cartItems, setCartItems] = useState([])
 
     useFocusEffect(
       useCallback(() => {
         getWishListByUserId(authToken, userId);
+        getCartByUserId();
       }, [])
     )
+
+    const getCartByUserId = () => {
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        },
+      };
+      getCartByUser(userId, requestOptions).then((data) => {
+        setCartItems(data?.cart?.products)
+      })
+    }
 
     useEffect(()=>{
       getWishListByUserId(authToken, userId);
@@ -68,6 +83,8 @@ const Wishlist = () => {
                 product={item}
                 pageType={"wishlist"}
                 getWishlistProds={getWishListByUserId}
+                existinCart={cartItems && cartItems.length > 0 &&
+                  cartItems.findIndex(p => p.product.toString() === item?._id) > -1}
             />
 
       ))}

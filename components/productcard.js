@@ -9,7 +9,12 @@ import Toast from 'react-native-root-toast'
 import TochableIcons from "../components/common/touchableicon"
 import { postCart } from '../services/cart';
 
-const ProductCard = ({product,pageType,getWishlistProds}) => {
+const ProductCard = ({
+  product,
+  pageType,
+  getWishlistProds,
+  existinCart
+}) => {
     let API_PATH='https://shop-products-api-1q6w.vercel.app';
     const navigation=useNavigation();
     const {authToken,userId}=useContext(AuthContext);
@@ -185,7 +190,10 @@ const ProductCard = ({product,pageType,getWishlistProds}) => {
      
         <View >
         <View style={styles.btnActions}>
-          <Button title='Add To Cart' color={"green"} onPress={()=>handleAddToCart()}/>
+          {existinCart? 
+            <Button title='Go To Cart' color={"green"} onPress={()=>navigation.navigate("cart")}/>:
+           <Button title='Add To Cart' color={"green"} onPress={()=>handleAddToCart()}/>
+           }
         </View>
         {
         pageType==="home"&&

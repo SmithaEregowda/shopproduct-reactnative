@@ -7,17 +7,33 @@ import Toast from 'react-native-root-toast';
 import { AuthContext } from '../store/auth';
 import { getwishlistByUser } from '../services/wishlist';
 import { useFocusEffect } from '@react-navigation/native';
+import { getCartByUser } from '../services/cart';
 
 const Products = ({pageType}) => {
     const [products,setProducts]=useState([]);
     const [loading,setLoading]=useState(false)
-    const {authToken,userId}=useContext(AuthContext)
+    const {authToken,userId}=useContext(AuthContext);
+    const [cartItems, setCartItems] = useState([])
+
 
   useFocusEffect(
     useCallback(()=>{
       getListOfProducts();
+      getCartByUserId();
     },[])
   )
+
+  const getCartByUserId = () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      },
+    };
+    getCartByUser(userId, requestOptions).then((data) => {
+      setCartItems(data?.cart?.products)
+    })
+  }
 
     const getListOfProducts=(filterItems)=>{
       setLoading(true)
@@ -58,6 +74,8 @@ const Products = ({pageType}) => {
                 key={item?.id}
                 product={item}
                 pageType={pageType}
+                existinCart={cartItems && cartItems.length > 0 &&
+                  cartItems.findIndex(p => p.product.toString() === item?._id) > -1}
             />
 
       ))}
