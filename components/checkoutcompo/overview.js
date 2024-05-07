@@ -3,7 +3,6 @@ import React from 'react'
 import CartProduct from '../cartprod/cartproduct'
 
 const OverViewProd = ({cartProducts,cartItems,setLoading}) => {
-    console.log("overView",cartProducts,cartItems)
   return (
     <ScrollView>
         {cartProducts?.map((prod)=>(

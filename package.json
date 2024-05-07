@@ -9,9 +9,13 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-segmented-control/segmented-control": "2.4.1",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "@stripe/stripe-js": "github:stripe/stripe-js",
+    "@stripe/stripe-react-native": "^0.37.3",
+    "@stripe/stripe-terminal-react-native": "^0.0.1-beta.18",
     "expo": "~49.0.8",
     "expo-asset": "~8.10.1",
     "expo-status-bar": "~1.6.0",
