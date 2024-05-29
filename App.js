@@ -7,6 +7,7 @@ import AuthNavigator from './navigation/authnav';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Checkout from "./screens/checkout"
 import { NavigationContainer } from '@react-navigation/native';
+import OrderOverView from './screens/orderoverView';
 
 export default function App() {
   const Stack=createNativeStackNavigator();
@@ -27,6 +28,13 @@ export default function App() {
         <Stack.Screen 
             name="checkout"
             component={Checkout}
+            // options={{
+            //   headerShown:false
+            // }}
+        />
+        <Stack.Screen 
+            name="orderview"
+            component={OrderOverView}
             // options={{
             //   headerShown:false
             // }}

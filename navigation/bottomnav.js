@@ -103,7 +103,7 @@ return(
         }}
         />
         <Tab.Screen 
-        name="Orders" 
+        name="orders" 
         component={Orders}
         options={(route)=>{
             return{

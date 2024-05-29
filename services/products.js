@@ -7,3 +7,11 @@ export  function getAllProducts(requestOptions) {
        }).then(data=>{return data;} )
            return data;
    }
+
+   export  function getAllProductsByIds(requestOptions,prodids) {
+    const data =fetch(`${API_PATH}/api/products/prodids?prodIds=${prodids}`,requestOptions)
+       .then(res => {
+           return res.json();
+       }).then(data=>{return data;} )
+           return data;
+   }
